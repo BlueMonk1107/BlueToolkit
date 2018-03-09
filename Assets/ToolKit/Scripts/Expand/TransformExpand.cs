@@ -145,23 +145,47 @@ namespace BlueToolkit
             }
         }
 
-        public static T Get<T>(this GameObject trans) where T : MonoBehaviour
+        public static T Get<T>(this GameObject go) where T : MonoBehaviour
+        {
+            if (go.GetComponent<T>() != null)
+            {
+                return go.GetComponent<T>();
+            }
+            else if (go.GetComponentInChildren<T>() != null)
+            {
+                return go.GetComponentInChildren<T>();
+            }
+            else if (go.GetComponentInParent<T>() != null)
+            {
+                return go.GetComponentInParent<T>();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static T GetOrAdd<T>(this Transform trans) where T:MonoBehaviour
         {
             if (trans.GetComponent<T>() != null)
             {
                 return trans.GetComponent<T>();
             }
-            else if (trans.GetComponentInChildren<T>() != null)
+            else
             {
-                return trans.GetComponentInChildren<T>();
+                return trans.gameObject.AddComponent<T>();
             }
-            else if (trans.GetComponentInParent<T>() != null)
+        }
+
+        public static T GetOrAdd<T>(this GameObject go) where T : MonoBehaviour
+        {
+            if (go.GetComponent<T>() != null)
             {
-                return trans.GetComponentInParent<T>();
+                return go.GetComponent<T>();
             }
             else
             {
-                return null;
+                return go.AddComponent<T>();
             }
         }
     }

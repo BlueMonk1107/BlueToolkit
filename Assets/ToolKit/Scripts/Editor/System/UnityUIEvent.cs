@@ -31,7 +31,10 @@ namespace BlueToolkit
             if (Selection.activeGameObject != null)
             {
                 Text text = Selection.activeGameObject.Get<Text>();
-                text.font = ToolCacheManager.GetFont();
+                if (text != null)
+                {
+                    text.font = ToolCacheManager.GetFont();
+                }
             }
         }
     }
