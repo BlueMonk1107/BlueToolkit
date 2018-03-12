@@ -43,16 +43,6 @@ namespace BlueToolkit
         static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets,
             string[] movedFromAssetPaths)
         {
-            //foreach (string asset in importedAssets)
-            //{
-            //}
-            //foreach (string asset in deletedAssets)
-            //{
-            //}
-
-            //for (int i = 0; i < movedAssets.Length; i++)
-            //{
-            //}
         }
     }
 }
