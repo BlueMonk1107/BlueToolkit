@@ -34,7 +34,7 @@ namespace BlueToolkit
                 for (int m = 0; m < meshfilter.Length; m++)
                 {
                     exportCount++;
-                    ExportFile.ExportObj((MeshFilter)meshfilter[m], ExportFile.EXPORT_FOLDER, selection[i].name + "_" + i + "_" + m);
+                    ExportFile.ExportObjToOne((MeshFilter)meshfilter[m], ExportFile.EXPORT_FOLDER, selection[i].name + "_" + i + "_" + m);
                 }
             }
 
@@ -83,14 +83,14 @@ namespace BlueToolkit
                     mf[i] = (MeshFilter)mfList[i];
                 }
 
-                string filename = SceneManager.GetActiveScene() + "_" + exportCount;
+                string filename = SceneManager.GetActiveScene().name + "_" + exportCount;
 
                 int stripIndex = filename.LastIndexOf('/'); //FIXME: Should be Path.PathSeparator
 
                 if (stripIndex >= 0)
                     filename = filename.Substring(stripIndex + 1).Trim();
 
-                ExportFile.ExportObjs(mf, ExportFile.EXPORT_FOLDER, filename);
+                ExportFile.ExportObjsToOne(mf, ExportFile.EXPORT_FOLDER, filename);
 
 
                 EditorUtility.DisplayDialog("导出成功", "导出模型名称：" + filename, "关闭");
@@ -129,7 +129,7 @@ namespace BlueToolkit
 
                 exportCount++;
 
-                ExportFile.ExportObjs(mf, ExportFile.EXPORT_FOLDER, selection[i].name + "_" + i);
+                ExportFile.ExportObjsToOne(mf, ExportFile.EXPORT_FOLDER, selection[i].name + "_" + i);
             }
 
             if (exportCount > 0)

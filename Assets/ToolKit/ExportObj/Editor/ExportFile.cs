@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BlueToolkit
 {
-    public class ExportFile     
+    public static class ExportFile     
     {
         /// <summary>
         /// 导出文件夹名称 路径为工程根目录
@@ -13,7 +13,7 @@ namespace BlueToolkit
         public const string EXPORT_FOLDER = "ExportedObj";
 
         //保存材质
-        private static void MaterialsToFile(Dictionary<string, MaterialData> materialList, string folder, string filename)
+        private static void ExportMaterials(Dictionary<string, MaterialData> materialList, string folder, string filename)
         {
             using (StreamWriter sw = new StreamWriter(folder + "/" + filename + ".mtl"))
             {
@@ -61,15 +61,15 @@ namespace BlueToolkit
             }
         }
         /// <summary>
-        /// 导出单个模型
+        /// 导出单个模型为一个文件
         /// </summary>
         /// <param name="mf"></param>
         /// <param name="folder"></param>
         /// <param name="filename"></param>
-        public static void ExportObj(MeshFilter mf, string folder, string filename)
+        public static void ExportObjToOne(MeshFilter mf, string folder, string filename)
         {
-            Dictionary<string, MaterialData> materialList = new Dictionary<string, MaterialData>();
-            MeshData data = new MeshData(mf, materialList);
+            MeshData data = new MeshData();
+            data.SaveData(mf);
 
             using (StreamWriter sw = new StreamWriter(folder + "/" + filename + ".obj"))
             {
@@ -78,17 +78,17 @@ namespace BlueToolkit
                 sw.Write(data.ToString());
             }
 
-            MaterialsToFile(materialList, folder, filename);
+            ExportMaterials(data.GetMaterialDic(), folder, filename);
         }
         /// <summary>
-        /// 导出多个模型
+        /// 导出多个模型为一个文件
         /// </summary>
         /// <param name="mf"></param>
         /// <param name="folder"></param>
         /// <param name="filename"></param>
-        public static void ExportObjs(MeshFilter[] mf, string folder, string filename)
+        public static void ExportObjsToOne(MeshFilter[] mf, string folder, string filename)
         {
-            Dictionary<string, MaterialData> materialList = new Dictionary<string, MaterialData>();
+            MeshData data = new MeshData();
 
             using (StreamWriter sw = new StreamWriter(folder + "/" + filename + ".obj"))
             {
@@ -96,12 +96,12 @@ namespace BlueToolkit
 
                 foreach (MeshFilter mesh in mf)
                 {
-                    MeshData data = new MeshData(mesh, materialList);
+                    data.SaveData(mesh);
                     sw.Write(data.ToString());
                 }
             }
 
-            MaterialsToFile(materialList, folder, filename);
+            ExportMaterials(data.GetMaterialDic(), folder, filename);
         }
         /// <summary>
         /// 创建导出目录

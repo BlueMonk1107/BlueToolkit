@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,15 +11,32 @@ namespace BlueToolkit
     /// </summary>
     public class MeshData      
     {
-        private static int _vertexOffset = 0;
-        private static int _normalOffset = 0;
-        private static int _uvOffset = 0;
+        private int _vertexOffset = 0;
+        private int _normalOffset = 0;
+        private int _uvOffset = 0;
         private StringBuilder _data;
+        private Dictionary<string, MaterialData> _materialDic;
 
-        public MeshData(MeshFilter meshFilter, Dictionary<string, MaterialData> materialDic)
+        public MeshData()
         {
             _data = new StringBuilder();
-            SaveMeshData(_data, meshFilter, materialDic);
+            _materialDic = new Dictionary<string, MaterialData>();
+        }
+
+        public Dictionary<string, MaterialData> GetMaterialDic()
+        {
+            return _materialDic;
+        }
+
+        /// <summary>
+        /// 保存数据
+        /// </summary>
+        /// <param name="meshFilter"></param>
+        /// <param name="materialDic"></param>
+        public void SaveData(MeshFilter meshFilter)
+        {
+            _data = new StringBuilder();
+            SaveMeshData(_data, meshFilter, _materialDic);
         }
 
         //把网格数据保存成文本信息
@@ -38,9 +56,6 @@ namespace BlueToolkit
 
             //保存材质数据
             SaveMaterails(meshFilter, data, materialDic);
-
-            //保存三角形数据
-            SaveTriangles(meshFilter, data);
         }
 
         //保存网格名称
@@ -49,7 +64,7 @@ namespace BlueToolkit
             data.Append("g ").Append(meshFilter.name).Append("\n");
         }
         //保存顶点数据
-        private static void SaveVertices(MeshFilter meshFilter, StringBuilder data)
+        private void SaveVertices(MeshFilter meshFilter, StringBuilder data)
         {
             foreach (Vector3 ver in meshFilter.sharedMesh.vertices)
             {
@@ -84,10 +99,11 @@ namespace BlueToolkit
         //保存材质数据
         private void SaveMaterails(MeshFilter meshFilter, StringBuilder data, Dictionary<string, MaterialData> materialDic)
         {
+            Mesh mesh = meshFilter.sharedMesh;
             Material[] materialArray = meshFilter.GetComponent<Renderer>().sharedMaterials;
             string materialName = "";
 
-            for (int materialIndex = 0; materialIndex < meshFilter.sharedMesh.subMeshCount; materialIndex++)
+            for (int materialIndex = 0; materialIndex < mesh.subMeshCount; materialIndex++)
             {
                 materialName = materialArray[materialIndex].name;
                 data.Append("\n");
@@ -113,16 +129,9 @@ namespace BlueToolkit
 
                     materialDic[materialData.Name] = materialData;
                 }
-            }
-        }
 
-        //保存三角形数据
-        private void SaveTriangles(MeshFilter meshFilter, StringBuilder data)
-        {
-            Mesh mesh = meshFilter.sharedMesh;
-            for (int meshIndex = 0; meshIndex < mesh.subMeshCount; meshIndex++)
-            {
-                int[] triangles = mesh.GetTriangles(meshIndex);
+                //保存三角形数据
+                int[] triangles = mesh.GetTriangles(materialIndex);
                 for (int i = 0; i < triangles.Length; i += 3)
                 {
                     data.Append(string.Format("f {1}/{1}/{1} {0}/{0}/{0} {2}/{2}/{2}\n",
@@ -134,14 +143,6 @@ namespace BlueToolkit
             _vertexOffset += mesh.vertices.Length;
             _normalOffset += mesh.normals.Length;
             _uvOffset += mesh.uv.Length;
-        }
-
-        //清空数据
-        public void Clear()
-        {
-            _vertexOffset = 0;
-            _normalOffset = 0;
-            _uvOffset = 0;
         }
 
         public override string ToString()
