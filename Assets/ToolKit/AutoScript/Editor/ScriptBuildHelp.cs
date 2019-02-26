@@ -125,5 +125,5 @@ namespace BlueToolkit
         {
             return _stringBuilder.ToString();
         }
-    }
+}
 }
