@@ -19,7 +19,8 @@ A set of tools designed to increase the efficiency of unity development.
 ## 已有内容
 ### 拓展类：     
 &ensp;&ensp;Transform拓展，详见TransformExpand类     
-&ensp;&ensp;UI拓展，详见UIExpand类   
+&ensp;&ensp;UI拓展，详见UIExpand类  
+&ensp;&ensp;Animator拓展，详见AnimatorUtil类   
 ### 工具类：  
 &ensp;&ensp;1）设置Text默认字体     
 &ensp;&ensp;2）一键统一修改目录下所有预制体的Text字体插件      
