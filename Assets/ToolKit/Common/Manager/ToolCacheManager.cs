@@ -92,7 +92,8 @@ namespace BlueToolkit
                 TData data = AssetDatabase.LoadAssetAtPath<TData>(cacheFilePath);
                 if (data == null)
                 {
-                    throw new Exception("类型错误");
+                    Debug.LogError("类型错误");
+                    return null;
                 }
                 else
                 {
@@ -101,7 +102,8 @@ namespace BlueToolkit
             }
             else
             {
-                throw new Exception("未找到缓存文件，路径：" + cacheFilePath);
+                Debug.LogError("未找到缓存文件，路径：" + cacheFilePath);
+                return null;
             }
         }
     }

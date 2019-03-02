@@ -22,7 +22,7 @@ namespace BlueToolkit
         public static void OpenWindow()
         {
             _window = GetWindow(typeof(GenerateEntitasCode));
-            _window.minSize = new Vector2(500, 800);
+            _window.minSize = new Vector2(500, 1200);
             _window.Show();
             Init();
         }
