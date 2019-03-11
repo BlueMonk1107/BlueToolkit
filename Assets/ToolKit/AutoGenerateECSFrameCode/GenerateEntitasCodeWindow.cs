@@ -31,7 +31,10 @@ namespace BlueToolkit
         private static void Close()
         {
             AssetDatabase.Refresh();
-            _window.Close();
+            if (_window != null)
+            {
+                _window.Close();
+            }
         }
 
         // 初始化插件

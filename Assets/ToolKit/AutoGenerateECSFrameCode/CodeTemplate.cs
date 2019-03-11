@@ -85,7 +85,7 @@ namespace BlueToolkit
         /// <returns></returns>
         public static string GetReactiveSystemCode()
         {
-            string className = ToolData.SelectedContextName + ToolData.ReactiveSystemName + ToolData.SystemPostfix;
+            string className = ToolData.SelectedContextName + ToolData.ReactiveSystemName + "Reactive" + ToolData.SystemPostfix;
             string entityName = ToolData.SelectedContextName + "Entity";
 
             var build = new ScriptBuildHelp();

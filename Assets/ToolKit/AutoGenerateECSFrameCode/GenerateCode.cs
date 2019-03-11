@@ -87,9 +87,20 @@ namespace BlueToolkit
         /// <param name="scriptContent"></param>
         public static void CreateScript(string path, string className, string scriptContent)
         {
+            string filePath = path + "/" + className + ".cs";
             if (Directory.Exists(path))
             {
-                File.WriteAllText(path + "/" + className + ".cs", scriptContent, Encoding.UTF8);
+                if (!File.Exists(filePath))
+                {
+                    SaveFile(filePath, scriptContent);
+                }
+                else
+                {
+                    if (EditorUtility.DisplayDialog("文件已存在", "是否覆盖文件", "覆盖", "取消"))
+                    {
+                        SaveFile(filePath, scriptContent);
+                    }
+                }
             }
             else
             {
@@ -97,6 +108,11 @@ namespace BlueToolkit
             }
 
             AssetDatabase.Refresh();
+        }
+
+        private static void SaveFile(string filePath, string scriptContent)
+        {
+            File.WriteAllText(filePath, scriptContent, Encoding.UTF8);
         }
     }
 }
