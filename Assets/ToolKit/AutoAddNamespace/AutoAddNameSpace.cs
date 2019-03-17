@@ -10,9 +10,6 @@ namespace BlueToolkit
 
     public class AutoAddNameSpace : UnityEditor.AssetModificationProcessor
     {
-        private static string _path = "Assets/Editor/AutoAddNamespace/Cache/";
-        private static string _dataName = "Data.asset";
-
         private static void OnWillCreateAsset(string path)
         {
             if (!IsOn())
@@ -36,7 +33,7 @@ namespace BlueToolkit
 
         public static NamespaceData GetData()
         {
-            return AssetDatabase.LoadAssetAtPath<NamespaceData>(_path + _dataName);
+            return AssetDatabase.LoadAssetAtPath<NamespaceData>(PathManager.NameSpaceDataPath);
         }
 
         private static bool IsOn()
