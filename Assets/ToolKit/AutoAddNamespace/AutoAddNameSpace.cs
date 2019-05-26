@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
@@ -25,7 +26,8 @@ namespace BlueToolkit
                 {
                     return;
                 }
-                var newText = GetNewScriptContext(name);
+                string nameSpace = GetNameSpaceName(path);
+                var newText = GetNewScriptContext(nameSpace,name);
                 File.WriteAllText(path, newText);
             }
             AssetDatabase.Refresh();
@@ -48,14 +50,12 @@ namespace BlueToolkit
         }
 
         //获取新的脚本内容
-        private static string GetNewScriptContext(string className)
+        private static string GetNewScriptContext(string nameSpace,string className)
         {
             var script = new ScriptBuildHelp();
             script.WriteUsing("UnityEngine");
             script.WriteEmptyLine();
-            var data = AddNamespaceWindow.GetData();
-            string name = data == null ? "UIFrame" : data.name;
-            script.WriteNamespace(name);
+            script.WriteNamespace(nameSpace);
 
             script.IndentTimes++;
             script.WriteClass(className, "MonoBehaviour");
@@ -67,32 +67,36 @@ namespace BlueToolkit
             return script.ToString();
         }
 
+        //获取命名空间名称
+        private static string GetNameSpaceName(string path)
+        {
+            StringBuilder nameSpace = new StringBuilder();
+
+            string[] folders = path.Split('/');
+            int startIndex = 0;
+            for (int i = 0; i < folders.Length; i++)
+            {
+                if (folders[i] == "Assets")
+                {
+                    startIndex = i + 1;
+                    break;
+                }
+            }
+
+            for (int i = startIndex; i < folders.Length -1; i++)
+            {
+                nameSpace.Append(folders[i]);
+                nameSpace.Append(".");
+            }
+
+            nameSpace.Remove(nameSpace.Length - 1, 1);
+
+            return nameSpace.ToString();
+        }
+
         //获取类名
         private static string GetClassName(string text)
         {
-            //string[] data = text.Split(' ');
-            //int index = 0;
-
-            //for (int i = 0; i < data.Length; i++)
-            //{
-            //    if (data[i].Contains("class"))
-            //    {
-            //        index = i + 1;
-            //        break;
-            //    }
-            //}
-
-            //if (data[index].Contains(":"))
-            //{
-            //    return data[index].Split(':')[0];
-            //}
-            //else
-            //{
-            //    return data[index];
-            //}
-
-            //public class NewBehaviourScript : MonoBehaviour
-
             string patterm = "public class ([A-Za-z0-9_]+)\\s*:\\s*MonoBehaviour";
             var match = Regex.Match(text, patterm);
             if (match.Success)

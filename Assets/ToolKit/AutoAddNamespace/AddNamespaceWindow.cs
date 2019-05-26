@@ -9,7 +9,6 @@ namespace BlueToolkit
     /// </summary>
     public class AddNamespaceWindow : EditorWindow
     {
-        private static string _name;
         public static bool _isOn;
 
         [MenuItem("BlueToolKit/自动添加命名空间工具")]
@@ -31,7 +30,6 @@ namespace BlueToolkit
             NamespaceData data = GetData();
             if (data != null)
             {
-                _name = data.name;
                 _isOn = data.IsOn;
             }
         }
@@ -40,14 +38,12 @@ namespace BlueToolkit
         {
             GUILayout.Label("命名空间名称");
             Rect rect = EditorGUILayout.GetControlRect(GUILayout.Width(200));
-            _name = EditorGUI.TextField(rect, _name);
 
             _isOn = GUILayout.Toggle(_isOn, "是否开启插件");
 
             if(GUILayout.Button("完成", GUILayout.MaxWidth(100)))
             {
                 NamespaceData data = new NamespaceData();
-                data.name = _name;
                 data.IsOn = _isOn;
 
                 ToolCacheManager.SaveCacheObject(PathManager.NameSpaceDataPath,data);
