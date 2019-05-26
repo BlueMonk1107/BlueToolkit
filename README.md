@@ -29,7 +29,7 @@ A set of tools designed to increase the efficiency of unity development.
 &ensp;&ensp;1）设置Text默认字体     
 &ensp;&ensp;2）一键统一修改目录下所有预制体的Text字体插件      
 &ensp;&ensp;3）导入图片自动设置格式，详见TextureImportSetting   
-&ensp;&ensp;4）自动添加命名空间       
+&ensp;&ensp;4）自动添加命名空间，采用类似java的包名方式，通过文件所在的文件夹对命名空间命名       
 &ensp;&ensp;5）用于StrangeIOC自动生成框架脚本的工具      
 &ensp;&ensp;6）用于Entitas自动生成框架脚本及自动初始化系统的工具    
 &ensp;&ensp;7）Unity导出模型插件       
