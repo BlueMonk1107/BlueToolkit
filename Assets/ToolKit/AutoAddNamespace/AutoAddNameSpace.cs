@@ -79,6 +79,11 @@ namespace BlueToolkit
                 if (folders[i] == "Assets")
                 {
                     startIndex = i + 1;
+
+                    if (folders[startIndex].ToLower().Contains("script"))
+                    {
+                        startIndex += 1;
+                    }
                     break;
                 }
             }
