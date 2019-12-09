@@ -18,7 +18,9 @@ A set of tools designed to increase the efficiency of unity development.
 
 **UnityExpand：** The Unity expand class (拓展类脚本目录)      
 
-**Shader：** Shader目录   
+**Shader：** Shader目录      
+
+**WordEffectComponent：** Text特效组件      
 
 ## 已有内容
 ### 拓展类：     
@@ -32,6 +34,7 @@ A set of tools designed to increase the efficiency of unity development.
 &ensp;&ensp;4）自动添加命名空间，采用类似java的包名方式，通过文件所在的文件夹对命名空间命名       
 &ensp;&ensp;5）用于StrangeIOC自动生成框架脚本的工具      
 &ensp;&ensp;6）用于Entitas自动生成框架脚本及自动初始化系统的工具    
-&ensp;&ensp;7）Unity导出模型插件       
+&ensp;&ensp;7）Unity导出模型插件         
+&ensp;&ensp;8）WordEffectComponent是自己修改顶点数据实现的Text特效组件，可以实现文本从左至右渐显效果  
 ### Shader：
 &ensp;&ensp;**MaskIcon：** 使用UI自带Mask切圆形锯齿严重，这个Shader可以消除锯齿   
